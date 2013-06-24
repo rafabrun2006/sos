@@ -22,7 +22,7 @@ public class Models {
     public int resultQuery;
 
     public Models(){
-        //System.out.println(_sql);
+        System.out.println(_sql);
     }
     
     public ResultSet resultSet() {
