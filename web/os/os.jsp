@@ -42,7 +42,7 @@
         <td><%=item.getObservacao()%></td>
         <td><%=item.getValor()%></td>
         <td class="btn-group">
-            <a href="#" class="btn btn-mini"><i class="icon-pencil"></i></a>
+            <a href="?url=os/alterar-os.jsp&codigo=<%=item.getCodigo()%>" class="btn btn-mini"><i class="icon-pencil"></i></a>
             <a href="/sos/ordem-servico?option=excluir&codigo=<%=item.getCodigo()%>" class="btn btn-mini"><i class="icon-trash"></i></a>
         </td>
     </tr>

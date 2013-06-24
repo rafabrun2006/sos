@@ -1,15 +1,16 @@
+
 <%@page import="models.FuncionarioModel"%>
 <%@page import="models.AcessoModel"%>
 <%@page import="controllers.AcessoController"%>
 <%
     AcessoController acesso = new AcessoController();
-    
+
     if (!acesso.isSession(session)) {
-        
-        if (request.getParameter("email") != null && request.getParameter("senha") != null) {
-            
+
+        if (request.getParameter("email") != "" && request.getParameter("senha") != "") {
+
             FuncionarioModel res = acesso.validate(request.getParameter("email"), request.getParameter("senha"), null);
-            
+
             if (res.getEmail() != null) {
                 session.setAttribute("email", res.getEmail());
                 session.setAttribute("nome", res.getNome());
@@ -18,13 +19,15 @@
                 session.setAttribute("matricula", res.getMatricula());
                 session.setAttribute("rg", res.getRg());
                 session.setAttribute("telefone", res.getTelefone());
+                
+                //Redirecionando para pagina principal
+                out.print("<meta http-equiv='refresh' content='0; url=index.jsp'>");
             }
         } else {
-        %>
-        <div class="alert alert-danger">
-            É necessário preencher um usário e senha
-        </div>
-        <% } 
+            if (request.getParameter("action") == "login") {%>
+                <div class="alert alert-danger">É necessário preencher um usário e senha</div>
+            <% }
+        } 
     }%>
 <style type="text/css">
     .form-signin {
@@ -53,13 +56,23 @@
     }
 
 </style>
+<meta http-equiv="refresh">
 <div class="container body">
-    <form class="form-signin" method="get" action="index.jsp">
+    <form class="form-signin" name="form" method="get" action="index.jsp">
         <h2 class="form-signin-heading">Login</h2>
         <br>
-        <input class="input-block-level" type="text" placeholder="Usuario" name="email">
-        <input class="input-block-level" type="password" placeholder="Senha" name="senha">
+        <input class="input-block-level" type="text" placeholder="Usuario" id="email" name="email">
+        <input class="input-block-level" type="password" placeholder="Senha" id="senha" name="senha">
+        <input type="hidden" name="action" value="login">
         <input type="hidden" name="url" value="login.jsp">
         <button class="btn btn-large btn-primary" id="login">Entrar</button>
     </form>
 </div>
+<script type="text/javascript">
+    $("#login").click(function(){
+       if(!$("#email").val() || !$("#senha").val()){
+           alert("É necessário informar um usuário e senha");
+           return false;
+       }
+    });
+</script>

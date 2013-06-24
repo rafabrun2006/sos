@@ -4,9 +4,9 @@
  */
 package controllers;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
-import library.MensagemHelper;
 import models.OrdemServicoModel;
 
 /**
@@ -84,6 +84,20 @@ public class OrdemServicoController {
         } catch (Exception e) {
             System.out.print(e);
             return false;
+        }
+
+    }
+
+    public OrdemServicoModel findBy(OrdemServicoModel os) {
+
+        try {
+            
+            os = (OrdemServicoModel) os.findBy(os);
+            return os;
+            
+        } catch (Exception e) {
+            System.out.print(e);
+            return os;
         }
 
     }

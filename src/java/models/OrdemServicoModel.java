@@ -161,35 +161,35 @@ public class OrdemServicoModel extends Models {
 
     public ArrayList fetchAll() throws Exception {
 
-        ArrayList<Object> os = new ArrayList<>();
+        ArrayList<Object> array = new ArrayList<>();
 
         super._table = "ordem_servico";
         ResultSet rs = this.resultSet();
 
         while (rs.next()) {
 
-            OrdemServicoModel o = new OrdemServicoModel();
+            OrdemServicoModel os = new OrdemServicoModel();
 
-            o.setCodigo(rs.getInt("codigo"));
-            o.setCod_cliente(rs.getInt("cod_cliente"));
-            o.setCod_equipamento(rs.getInt("cod_equipamento"));
-            o.setMatr_funcionario(rs.getInt("matr_funcionario"));
-            o.setCod_peca_estoque(rs.getInt("cod_peca_estoque"));
-            o.setCod_servico(rs.getInt("cod_servico"));
-            o.setData_abertura(rs.getString("data_abertura"));
-            o.setData_encerramento(rs.getString("data_encerramento"));
-            o.setSituacao_atual(rs.getString("situacao_atual"));
-            o.setTipo_servico(rs.getString("tipo_servico"));
-            o.setDefeito_informado(rs.getString("defeito_informado"));
-            o.setDefeito_constatado(rs.getString("defeito_constatado"));
-            o.setSituacao_orcamento(rs.getString("situacao_orcamento"));
-            o.setObservacao(rs.getString("observacao"));
-            o.setValor(rs.getDouble("valor"));
+            os.setCodigo(rs.getInt("codigo"));
+            os.setCod_cliente(rs.getInt("cod_cliente"));
+            os.setCod_equipamento(rs.getInt("cod_equipamento"));
+            os.setMatr_funcionario(rs.getInt("matr_funcionario"));
+            os.setCod_peca_estoque(rs.getInt("cod_peca_estoque"));
+            os.setCod_servico(rs.getInt("cod_servico"));
+            os.setData_abertura(rs.getString("data_abertura"));
+            os.setData_encerramento(rs.getString("data_encerramento"));
+            os.setSituacao_atual(rs.getString("situacao_atual"));
+            os.setTipo_servico(rs.getString("tipo_servico"));
+            os.setDefeito_informado(rs.getString("defeito_informado"));
+            os.setDefeito_constatado(rs.getString("defeito_constatado"));
+            os.setSituacao_orcamento(rs.getString("situacao_orcamento"));
+            os.setObservacao(rs.getString("observacao"));
+            os.setValor(rs.getDouble("valor"));
 
-            os.add(o);
+            array.add(os);
         }
 
-        return os;
+        return array;
     }
 
     public Boolean save(OrdemServicoModel ordemServico) {
@@ -252,6 +252,38 @@ public class OrdemServicoModel extends Models {
         } catch (Exception e) {
             System.out.print(e);
             return false;
+        }
+    }
+
+    public OrdemServicoModel findBy(OrdemServicoModel os) {
+
+        ArrayList<String> where = new ArrayList<>();
+        where.add("codigo = " + os.getCodigo());
+
+        try {
+            ResultSet rs = super.findBy(where);
+
+            os.setCodigo(rs.getInt("codigo"));
+            os.setCod_cliente(rs.getInt("cod_cliente"));
+            os.setCod_equipamento(rs.getInt("cod_equipamento"));
+            os.setMatr_funcionario(rs.getInt("matr_funcionario"));
+            os.setCod_peca_estoque(rs.getInt("cod_peca_estoque"));
+            os.setCod_servico(rs.getInt("cod_servico"));
+            os.setData_abertura(rs.getString("data_abertura"));
+            os.setData_encerramento(rs.getString("data_encerramento"));
+            os.setSituacao_atual(rs.getString("situacao_atual"));
+            os.setTipo_servico(rs.getString("tipo_servico"));
+            os.setDefeito_informado(rs.getString("defeito_informado"));
+            os.setDefeito_constatado(rs.getString("defeito_constatado"));
+            os.setSituacao_orcamento(rs.getString("situacao_orcamento"));
+            os.setObservacao(rs.getString("observacao"));
+            os.setValor(rs.getDouble("valor"));
+
+            return os;
+            
+        } catch (Exception e) {
+            System.out.print(e);
+            return os;
         }
     }
 }

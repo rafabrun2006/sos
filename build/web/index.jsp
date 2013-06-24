@@ -7,6 +7,7 @@
 <%@page import="library.MensagemHelper"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="controllers.AcessoController"%>
+<% AcessoController acesso = new AcessoController(); %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -31,6 +32,7 @@
                     </button>
                     <a href="index.jsp" class="brand">Sistema de OS</a>
                     <div class="nav-collapse collapse">
+                        <% if(acesso.isSession(session)){ %>
                         <ul class="nav">
                             <li class="active"><a href="index.jsp">Principal</a></li>
                             <li><a href="?url=os/cadastro-os.jsp">Nova OS</a></li>
@@ -38,24 +40,23 @@
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">Administração<b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     <li class="nav-header">Menú Rápido</li>
-                                    <li><a href="?url=os/os.jsp&type=1">Pendentes</a></li>
-                                    <li><a href="?url=os/os.jsp&type=2">Concluidas</a></li>
-                                    <li><a href="?url=os/os.jsp">Todas</a></li>
+                                    <li><a href="?url=os/os.jsp">Ordems de Serviço</a></li>
                                     <li class="divider"></li>
                                     <li class="nav-header">Pessoal</li>
                                     <li><a href="?url=pessoa/clientes.jsp">Clientes</a></li>
                                     <li><a href="?url=pessoa/funcionarios.jsp">Funcionários</a></li>
                                     <li class="nav-header">Gerais</li>
-                                    <li><a href="?">Equipamento</a></li>
-                                    <li><a href="?">Serviço</a></li>
-                                    <li><a href="?">Pedidos</a></li>
-                                    <li><a href="?">Estoque de Peças</a></li>
-                                    <li><a href="?">Pedido Compra</a></li>
+                                    <li><a href="#">Equipamento</a></li>
+                                    <li><a href="#">Serviço</a></li>
+                                    <li><a href="#">Pedidos</a></li>
+                                    <li><a href="#">Estoque de Peças</a></li>
+                                    <li><a href="#">Pedido Compra</a></li>
                                 </ul>
                             </li>
                         </ul>
                         <a class="btn btn-danger pull-right" href="sair.jsp">Sair</a>
                         <div class="btn btn-info pull-right"><%=session.getAttribute("email")%></div>
+                        <%}%>
                     </div><!--/.nav-collapse -->
                 </div>
             </div>
@@ -65,11 +66,12 @@
         <br>
         <%-- if(1==1){ response.sendRedirect("login.jsp"); } --%>
         <div class="container">
+            <%if(request.getParameter("msg") != null){%>
             <%=MensagemHelper.getMensagem(request.getParameter("msg"))%>
+            <%}%>
             <div class="row">
                 <section class="span12">
                     <%
-                        AcessoController acesso = new AcessoController();
                         String url = null;
 
                         if (acesso.isSession(session)) {
@@ -86,7 +88,7 @@
                 </section>
             </div>
             <hr>
-            <div class="row">
+<!--            <div class="row">
                 <div class="span6">
                     <h3>Ultimas OS</h3>
                     <ul>
@@ -104,7 +106,7 @@
                     <p><a class="btn" href="#">Ver Todas</a></p>
                 </div>
             </div>
-            <hr>
+            <hr>-->
             <footer>
                 Todos os direitos reservados 2013
             </footer>
