@@ -4,15 +4,17 @@
  */
 package models;
 
-import java.sql.Date;
+import controllers.ConnectionController;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
  *
  * @author Bruno
  */
-public class OrdemServicoModel extends Models{
+public class OrdemServicoModel extends Models {
 
     public String _table;
     public String _primary;
@@ -22,8 +24,8 @@ public class OrdemServicoModel extends Models{
     private int matr_funcionario;
     private int cod_peca_estoque;
     private int cod_servico;
-    private Date data_abertura;
-    private Date data_encerramento;
+    private String data_abertura;
+    private String data_encerramento;
     private String situacao_atual;
     private String tipo_servico;
     private String defeito_informado;
@@ -31,6 +33,11 @@ public class OrdemServicoModel extends Models{
     private String situacao_orcamento;
     private String observacao;
     private Double valor;
+
+    public OrdemServicoModel() {
+        super._primary = "codigo";
+        super._table = "ordem_servico";
+    }
 
     public int getCodigo() {
         return codigo;
@@ -80,19 +87,19 @@ public class OrdemServicoModel extends Models{
         this.cod_servico = cod_servico;
     }
 
-    public Date getData_abertura() {
+    public String getData_abertura() {
         return data_abertura;
     }
 
-    public void setData_abertura(Date data_abertura) {
+    public void setData_abertura(String data_abertura) {
         this.data_abertura = data_abertura;
     }
 
-    public Date getData_encerramento() {
+    public String getData_encerramento() {
         return data_encerramento;
     }
 
-    public void setData_encerramento(Date data_encerramento) {
+    public void setData_encerramento(String data_encerramento) {
         this.data_encerramento = data_encerramento;
     }
 
@@ -151,11 +158,11 @@ public class OrdemServicoModel extends Models{
     public void setValor(Double valor) {
         this.valor = valor;
     }
-    
+
     public ArrayList fetchAll() throws Exception {
 
         ArrayList<Object> os = new ArrayList<>();
-        
+
         super._table = "ordem_servico";
         ResultSet rs = this.resultSet();
 
@@ -169,8 +176,8 @@ public class OrdemServicoModel extends Models{
             o.setMatr_funcionario(rs.getInt("matr_funcionario"));
             o.setCod_peca_estoque(rs.getInt("cod_peca_estoque"));
             o.setCod_servico(rs.getInt("cod_servico"));
-            o.setData_abertura(rs.getDate("data_abertura"));
-            o.setData_encerramento(rs.getDate("data_encerramento"));
+            o.setData_abertura(rs.getString("data_abertura"));
+            o.setData_encerramento(rs.getString("data_encerramento"));
             o.setSituacao_atual(rs.getString("situacao_atual"));
             o.setTipo_servico(rs.getString("tipo_servico"));
             o.setDefeito_informado(rs.getString("defeito_informado"));
@@ -178,10 +185,73 @@ public class OrdemServicoModel extends Models{
             o.setSituacao_orcamento(rs.getString("situacao_orcamento"));
             o.setObservacao(rs.getString("observacao"));
             o.setValor(rs.getDouble("valor"));
-            
+
             os.add(o);
         }
 
         return os;
+    }
+
+    public Boolean save(OrdemServicoModel ordemServico) {
+
+        PreparedStatement stmt;
+        ConnectionController conn = new ConnectionController();
+
+        try {
+            _sql = "INSERT INTO " + super._table + "("
+                    + "cod_cliente,"
+                    + "cod_equipamento,"
+                    + "matr_funcionario,"
+                    + "cod_peca_estoque,"
+                    + "cod_servico,"
+                    + "data_abertura,"
+                    + "data_encerramento,"
+                    + "situacao_atual,"
+                    + "tipo_servico,"
+                    + "defeito_informado,"
+                    + "defeito_constatado,"
+                    + "situacao_orcamento,"
+                    + "observacao,"
+                    + "valor"
+                    + ") VALUES ("
+                    + "'" + ordemServico.getCod_cliente() + "'"
+                    + ",'" + ordemServico.getCod_equipamento() + "'"
+                    + ",'" + ordemServico.getMatr_funcionario() + "'"
+                    + ",'" + ordemServico.getCod_peca_estoque() + "'"
+                    + ",'" + ordemServico.getCod_servico() + "'"
+                    + ",'" + ordemServico.getData_abertura() + "'"
+                    + ",'" + ordemServico.getData_encerramento() + "'"
+                    + ",'" + ordemServico.getSituacao_atual() + "'"
+                    + ",'" + ordemServico.getTipo_servico() + "'"
+                    + ",'" + ordemServico.getDefeito_informado() + "'"
+                    + ",'" + ordemServico.getDefeito_constatado() + "'"
+                    + ",'" + ordemServico.getSituacao_orcamento() + "'"
+                    + ",'" + ordemServico.getObservacao() + "'"
+                    + ",'" + ordemServico.getValor() + "'"
+                    + ")";
+
+            stmt = conn.odbcConnection().prepareStatement(_sql);
+            stmt.executeUpdate();
+            stmt.closeOnCompletion();
+
+            System.out.print(_sql);
+            return true;
+
+        } catch (Exception e) {
+            System.out.print("Model Ordem Servico Error: " + e);
+            return false;
+        }
+
+    }
+
+    public Boolean delete(OrdemServicoModel os) {
+
+        try {
+            super.delete(os.getCodigo());
+            return true;
+        } catch (Exception e) {
+            System.out.print(e);
+            return false;
+        }
     }
 }

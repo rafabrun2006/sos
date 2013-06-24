@@ -6,7 +6,6 @@ package controllers;
 
 import java.util.ArrayList;
 import models.ClienteModel;
-import models.FuncionarioModel;
 
 /**
  *

@@ -4,7 +4,9 @@
     Author     : Admin
 --%>
 
+<%@page import="library.MensagemHelper"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="controllers.AcessoController"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,6 +17,7 @@
         <script type="text/javascript" src="assets/js/bootstrap.js"></script>
         <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="assets/js/dropdown-boostrap.js"></script>
+
         <title>Principal</title>
     </head>
     <body>
@@ -51,11 +54,8 @@
                                 </ul>
                             </li>
                         </ul>
-                        <form class="navbar-form pull-right">
-                            <input type="text" placeholder="Email" class="span2">
-                            <input type="password" placeholder="Senha" class="span2">
-                            <button class="btn" type="submit">Entrar</button>
-                        </form>
+                        <a class="btn btn-danger pull-right" href="sair.jsp">Sair</a>
+                        <div class="btn btn-info pull-right"><%=session.getAttribute("email")%></div>
                     </div><!--/.nav-collapse -->
                 </div>
             </div>
@@ -65,21 +65,24 @@
         <br>
         <%-- if(1==1){ response.sendRedirect("login.jsp"); } --%>
         <div class="container">
-            <!-- Main hero unit for a primary marketing message or call to action -->
-            <!--            <div class="hero-unit">
-                            <h2>Sistema de Ordens de Serviço</h2>
-                        </div>-->
-            <!-- Example row of columns -->
+            <%=MensagemHelper.getMensagem(request.getParameter("msg"))%>
             <div class="row">
                 <section class="span12">
-                    <% if (request.getParameter("url") != null) {%>
-                    <jsp:include page="<%=request.getParameter("url")%>"></jsp:include>
-                    <% } else {%>
-                    <p>
-                        O sistema de ordens de serviço foi feito para que o usuário tenha um feedback de seus pedidos
-                        além de manter um hitórico de trabalho da area de suporte.
-                    </p>
-                    <% }%>
+                    <%
+                        AcessoController acesso = new AcessoController();
+                        String url = null;
+
+                        if (acesso.isSession(session)) {
+                            if (request.getParameter("url") != null) {
+                                url = request.getParameter("url");
+                            } else {
+                                url = "inicio.jsp";
+                            }
+                        } else {
+                            url = "login.jsp";
+                        }
+                    %>
+                    <jsp:include page="<%=url%>"></jsp:include>
                 </section>
             </div>
             <hr>
@@ -106,5 +109,8 @@
                 Todos os direitos reservados 2013
             </footer>
         </div>
+        <script type="text/javascript" src="assets/js/utils.js"></script>
+        <script type="text/javascript" src="assets/js/masks.js"></script>
     </body>
+
 </html>

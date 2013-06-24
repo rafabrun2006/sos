@@ -6,13 +6,22 @@
         <param-value>%</param-value>
     </context-param>
     <servlet>
-        <servlet-name>Servlet</servlet-name>
-        <servlet-class>library.Servlet</servlet-class>
+        <servlet-name>OrdemServico</servlet-name>
+        <servlet-class>Servlets.OrdemServico</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Servlet</servlet-name>
-        <url-pattern>/Servlet</url-pattern>
+        <servlet-name>OrdemServico</servlet-name>
+        <url-pattern>/OrdemServico</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>web</servlet-name>
+        <servlet-class>library.web</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>web</servlet-name>
+        <url-pattern>/web</url-pattern>
+    </servlet-mapping>
+    
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
         <welcome-file>index.htm</welcome-file>

@@ -13,10 +13,8 @@ import java.util.ArrayList;
  * @author Bruno
  */
 public class FuncionarioModel extends Models {
-
-    public String _table = "funcionario";
-    protected String _primary = "matricula";
-    private int matricula;
+    
+    private String matricula;
     private String nome;
     private String cpf;
     private String rg;
@@ -27,11 +25,20 @@ public class FuncionarioModel extends Models {
     private String cargo;
     private String senha;
 
-    public int getMatricula() {
+    public FuncionarioModel(){
+        super._table = "funcionario";
+        super._primary = "matricula";
+    }
+    
+    public String getMatricula() {
         return matricula;
     }
 
-    public void setMatricula(int matricula) {
+    /**
+     *
+     * @param matricula
+     */
+    public void setMatricula(String matricula) {
         this.matricula = matricula;
     }
 
@@ -111,14 +118,13 @@ public class FuncionarioModel extends Models {
 
         ArrayList<Object> funcionarios = new ArrayList<>();
         
-        super._table = "funcionario";
         ResultSet rs = this.resultSet();
 
         while (rs.next()) {
 
             FuncionarioModel f = new FuncionarioModel();
 
-            f.setMatricula(rs.getInt("matricula"));
+            f.setMatricula(rs.getString("matricula"));
             f.setNome(rs.getString("nome"));
             f.setCpf(rs.getString("cpf"));
             f.setRg(rs.getString("rg"));

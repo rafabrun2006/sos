@@ -1,10 +1,32 @@
+<%@page import="models.FuncionarioModel"%>
+<%@page import="models.AcessoModel"%>
+<%@page import="controllers.AcessoController"%>
+<%
+    AcessoController acesso = new AcessoController();
+    
+    if (!acesso.isSession(session)) {
+        
+        if (request.getParameter("email") != null && request.getParameter("senha") != null) {
+            
+            FuncionarioModel res = acesso.validate(request.getParameter("email"), request.getParameter("senha"), null);
+            
+            if (res.getEmail() != null) {
+                session.setAttribute("email", res.getEmail());
+                session.setAttribute("nome", res.getNome());
+                session.setAttribute("cargo", res.getCargo());
+                session.setAttribute("cpf", res.getCpf());
+                session.setAttribute("matricula", res.getMatricula());
+                session.setAttribute("rg", res.getRg());
+                session.setAttribute("telefone", res.getTelefone());
+            }
+        } else {
+        %>
+        <div class="alert alert-danger">
+            É necessário preencher um usário e senha
+        </div>
+        <% } 
+    }%>
 <style type="text/css">
-    .body {
-        padding-top: 40px;
-        padding-bottom: 40px;
-        background-color: #f5f5f5;
-    }
-
     .form-signin {
         max-width: 300px;
         padding: 19px 29px 29px;
@@ -29,17 +51,15 @@
         margin-bottom: 15px;
         padding: 7px 9px;
     }
-    .container{
-        margin: 100px 0 0 0;
-    }
 
 </style>
 <div class="container body">
-    <form class="form-signin" action="/web/Servlet">
+    <form class="form-signin" method="get" action="index.jsp">
         <h2 class="form-signin-heading">Login</h2>
         <br>
-        <input class="input-block-level" type="text" placeholder="Usuario" name="usuario">
+        <input class="input-block-level" type="text" placeholder="Usuario" name="email">
         <input class="input-block-level" type="password" placeholder="Senha" name="senha">
+        <input type="hidden" name="url" value="login.jsp">
         <button class="btn btn-large btn-primary" id="login">Entrar</button>
     </form>
 </div>
